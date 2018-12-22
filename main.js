@@ -1,6 +1,6 @@
 function getUrlVars() {
   var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (
     m,
     key,
     value,
@@ -12,7 +12,7 @@ function getUrlVars() {
 
 function get(parameter, defaultvalue) {
   var urlparameter = defaultvalue;
-  if (window.location.href.indexOf(parameter) > -1) {
+  if (window.location.href.indexOf(parameter + "=") > -1) {
     urlparameter = getUrlVars()[parameter];
   }
   return urlparameter;
@@ -48,28 +48,18 @@ function redraw(canvas, context, w, w2, k, kk, n, opacity, thickness) {
     context.lineTo(pcx[j2], pcy[j2]);
     context.stroke();
 
-    if (j < 10) {
-      context.fillText(j1 + ' ' + j2, 20, 80 + j * 20);
-    }
+    //if (j < 10) {
+    //context.fillText(j1 + ' ' + j2, 20, 80 + j * 20);
+    //}
   }
 
-  var Title =
-    'num = ' +
-    n +
-    ' w = ' +
-    w +
-    ' w2 = ' +
-    w2 +
-    ' k = ' +
-    k +
-    ' kk = ' +
-    kk +
-    ' op = ' +
-    opacity +
-    ' th = ' +
-    thickness;
+  var Title = 'w = ' + w + ' w2 = ' + w2 + ' k = ' + k + ' kk = ' + kk +
+    ' op = ' + opacity + ' th = ' + thickness;
 
-  context.fillText(Title, 20, 50);
+  context.fillText(Title, 20, 15);
+  //var numst = 'n = '+n;
+  var x = Math.round(n * 1000) / 1000;
+  context.fillText("n = " + x, 20, 30);
 
   var dataURL = canvas.toDataURL();
   document.getElementById('canvasImg').src = dataURL;
@@ -79,18 +69,21 @@ var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 
 var w = get('w', 1000);
+canvas.width = w;
+canvas.height = w;
 var w2 = w / 2;
-var k = get('k', 300);
-var kk = get('kk', 2600);
-var n = get('num', 72.1);
+var k = get('k', 200);
+var kk = get('kk', 1200);
+var n = get('num', 1.5);
+var dn = get('dn', 0.001);
 
 var opacity = get('op', 0.4);
-var thickness = get('th', 0.5);
+var thickness = get('th', 0.3);
 
 redraw(canvas, context, w, w2, k, kk, n, opacity, thickness);
 
 var delta = 1;
-var deltaSmallCoeff = 0.01;
+var deltaSmallCoeff = dn;
 window.addEventListener('keypress', e => {
   var coeff = e.shiftKey ? deltaSmallCoeff : 1;
   switch (e.code) {
@@ -110,7 +103,7 @@ window.addEventListener('keypress', e => {
 
 var interval = 16;
 var deltasPerSec = {
-  n: 0.001,
+  n: dn,
 };
 var signs = {
   n: 1,
