@@ -78,7 +78,7 @@ function redraw(canvas, context, w, w2, k, kk, n, opacity, thickness) {
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 
-var w = get('w', 1600);
+var w = get('w', 1000);
 var w2 = w / 2;
 var k = get('k', 300);
 var kk = get('kk', 2600);
@@ -107,3 +107,36 @@ window.addEventListener('keypress', e => {
   console.log(n);
   redraw(canvas, context, w, w2, k, kk, n, opacity, thickness);
 });
+
+var interval = 16;
+var deltasPerSec = {
+  n: 0.001,
+};
+var signs = {
+  n: 1,
+};
+
+function startAuto() {
+  var lastStamp = Date.now();
+  function animate() {
+    var nowStamp = Date.now();
+    Object.entries(deltasPerSec).forEach(entrie => {
+      var delta = (entrie[1] * (nowStamp - lastStamp)) / 1000;
+      window[entrie[0]] = parseFloat(window[entrie[0]]) + delta;
+    });
+
+    lastStamp = nowStamp;
+  }
+
+  setInterval(animate, interval);
+}
+
+var counter = 0;
+function nextFrame() {
+  requestAnimationFrame(nextFrame);
+  if (counter % 2 == 0)
+    redraw(canvas, context, w, w2, k, kk, n, opacity, thickness);
+}
+
+nextFrame();
+startAuto();
