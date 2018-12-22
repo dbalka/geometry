@@ -88,3 +88,22 @@ var opacity = get('op', 0.4);
 var thickness = get('th', 0.5);
 
 redraw(canvas, context, w, w2, k, kk, n, opacity, thickness);
+
+var delta = 1;
+var deltaSmallCoeff = 0.01;
+window.addEventListener('keypress', e => {
+  var coeff = e.shiftKey ? deltaSmallCoeff : 1;
+  switch (e.code) {
+    case 'BracketRight':
+      n += delta * coeff;
+      break;
+    case 'BracketLeft':
+      n -= delta * coeff;
+      break;
+    default:
+      return;
+  }
+
+  console.log(n);
+  redraw(canvas, context, w, w2, k, kk, n, opacity, thickness);
+});
