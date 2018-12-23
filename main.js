@@ -208,11 +208,11 @@ var signs = {
 var animate_delay = 0;
 
 function startAuto() {
-  var lastStamp = Date.now();
+  var lastStamp = performance.now();
 
   function animate() {
 
-    var nowStamp = Date.now();
+    var nowStamp = performance.now();
 
     //Object.entries(deltasPerSec).forEach(entrie => {
     animate_delay = nowStamp - lastStamp;
@@ -241,11 +241,11 @@ function nextFrame() {
 }
 
 var prev_frame = 0;
-var time = Date.now();
+var time = performance.now();
 var one_sec = 0;
 
 function oneSecTimer() {
-  var time_now = Date.now();
+  var time_now = performance.now();
   one_sec = time_now - time;
   time = time_now;
   fps = frame - prev_frame;
