@@ -170,8 +170,8 @@ window.addEventListener('keydown', e => {
     case 'r': if (dn < 10) dn += 0.0001; break;
     case 'd': if (frame_delay > 20) frame_delay -= 1; break;
     case 'f': if (frame_delay < 250) frame_delay += 1; break;
-    case '+': canvas.width += 10; recalc(); break;
-    case '-': if (canvas.width > 100) canvas.width -= 10; recalc(); break;
+    case '+': canvas.width += 10; canvas.height += 10; recalc(); break;
+    case '-': if (canvas.width > 100) canvas.width -= 10; canvas.height -= 10; recalc(); break;
     case 'h': help_show = !help_show; break;
     case 'g': info_show = !info_show; break;
     default:
